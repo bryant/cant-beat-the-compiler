@@ -34,7 +34,8 @@ extern "C" void sortRoutine(Item *items, int count) {
         }
 
         // move pivot into place
-        std::swap(items[low], items[count]);
+        items[count] = items[low];
+        items[low] = pivot;
 
         // recurse
         count -= low;
