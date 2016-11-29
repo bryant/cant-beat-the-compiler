@@ -23,8 +23,8 @@ extern "C" void sortRoutine(Item *items, int count) {
     while (true) {
         // Pick the pivot.
         Item pivot = items[count];
-        int low = 0, pos = 0;
-        do {
+        int low = 0;
+        for (int pos = 0; pos < count; pos += 1) {
             if (items[pos].key <= pivot.key) {
                 // swap elements
                 Item t0 = items[low];
@@ -33,8 +33,7 @@ extern "C" void sortRoutine(Item *items, int count) {
                 items[pos] = t0;
                 low++;
             }
-            pos++;
-        } while (pos < count);
+        }
 
         // move pivot into place
         Item tmp = items[low];
