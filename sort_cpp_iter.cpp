@@ -7,12 +7,12 @@ struct Item {
 };
 struct Pair {
     Item *items;
-    int count;
+    unsigned count;
 };
 
 static Pair stack[1000];
 
-extern "C" void sortRoutine(Item *items, int count) {
+extern "C" void sortRoutine(Item *items, unsigned count) {
     Pair *top = stack;
 
     count--;
@@ -24,8 +24,8 @@ extern "C" void sortRoutine(Item *items, int count) {
     while (true) {
         // Pick the pivot.
         Item pivot = items[count];
-        int low = 0;
-        for (int pos = 0; pos < count; pos += 1) {
+        unsigned low = 0;
+        for (unsigned pos = 0; pos < count; pos += 1) {
             if (items[pos].key <= pivot.key) {
                 // swap elements
                 std::swap(items[low], items[pos]);
@@ -38,17 +38,15 @@ extern "C" void sortRoutine(Item *items, int count) {
         items[low] = pivot;
 
         // recurse
-        count -= low;
-        count--;
-        if (count > 0) {
-            // push right side
-            *top++ = {items + low + 1, count};
+        if (low < count) {
+            *top++ = {&items[low + 1], count - low - 1};
         }
 
         // move to left side
-        count = low - 1;
-        if (count > 0)
+        if (low > 1) {
+            count = low - 1;
             continue;
+        }
 
         // no left side, pop off stack
         Pair p = *--top;
