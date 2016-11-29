@@ -38,7 +38,7 @@ extern "C" void sortRoutine(Item *items, unsigned count) {
         items[low] = pivot;
 
         // recurse
-        if (low < count) {
+        if (low + 1 < count) {
             *top++ = {&items[low + 1], count - low - 1};
         }
 
