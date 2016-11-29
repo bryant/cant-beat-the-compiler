@@ -1,4 +1,5 @@
 // C++ version (explicit stack management)
+#include <algorithm>
 
 struct Item {
     int key;
@@ -27,18 +28,13 @@ extern "C" void sortRoutine(Item *items, int count) {
         for (int pos = 0; pos < count; pos += 1) {
             if (items[pos].key <= pivot.key) {
                 // swap elements
-                Item t0 = items[low];
-                Item t1 = items[pos];
-                items[low] = t1;
-                items[pos] = t0;
+                std::swap(items[low], items[pos]);
                 low++;
             }
         }
 
         // move pivot into place
-        Item tmp = items[low];
-        items[count] = tmp;
-        items[low] = pivot;
+        std::swap(items[low], items[count]);
 
         // recurse
         count -= low;
