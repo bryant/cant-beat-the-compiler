@@ -13,6 +13,15 @@ struct Item {
     value: i32,
 }
 
+impl Rand for Item {
+    fn rand<R: Rng>(r: &mut R) -> Self {
+        Item {
+            key: r.gen(),
+            value: r.gen(),
+        }
+    }
+}
+
 struct UnsafeItemz<'a, T: 'a>(&'a mut [T]);
 
 impl<'a, T: 'a> Index<usize> for UnsafeItemz<'a, T> {
@@ -41,15 +50,6 @@ fn rdtscp() -> u64 {
         asm!("rdtscp" : "={eax}"(low), "={edx}"(high) : : "ecx": "volatile");
     }
     (high as u64) << 32 | low as u64
-}
-
-impl Rand for Item {
-    fn rand<R: Rng>(r: &mut R) -> Self {
-        Item {
-            key: r.gen(),
-            value: r.gen(),
-        }
-    }
 }
 
 struct StackStack<T> {
