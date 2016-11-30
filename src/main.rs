@@ -88,11 +88,9 @@ fn pivot_sort(items: &mut UnsafeItemz<Item>, start: usize, end: usize,
     let mut partition = start;
     let pivot = items[end];
     for pos in start..end - 1 {
-        unsafe {
-            if items[pos].key <= pivot.key {
-                items.swap(pos, partition);
-                partition += 1;
-            }
+        if items[pos].key <= pivot.key {
+            items.swap(pos, partition);
+            partition += 1;
         }
     }
 
