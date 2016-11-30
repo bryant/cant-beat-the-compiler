@@ -137,15 +137,18 @@ fn check(items: &mut [Item]) -> Option<usize> {
 
 fn main() {
     let mut run = || {
-        unsafe { libc::srand(12345) };
-        let mut items = (0..1000_000)
-            .map(|_| unsafe {
+        let mut items = unsafe {
+            unsafe fn nu() -> Item {
                 Item {
                     key: libc::rand(),
                     value: libc::rand(),
                 }
-            })
-            .collect::<Vec<Item>>();
+            }
+            libc::srand(12345);
+            (0..1000_000)
+                .map(|_| nu())
+                .collect::<Vec<Item>>()
+        };
         let now = rdtscp();
         sort(&mut items);
         let rv = rdtscp() - now;
