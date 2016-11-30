@@ -1,0 +1,11 @@
+[package]
+name = "sortrs"
+version = "0.1.0"
+authors = ["bryant <bryant@users.noreply.github.com>"]
+
+[dependencies]
+rand = "*"
+libc = "*"
+
+[profile.release]
+debug = true
