@@ -1,7 +1,8 @@
-#![feature(asm)]
+#![feature(asm, core_intrinsics)]
 
 extern crate rand;
 extern crate libc;
+extern crate core;
 
 use std::vec::Vec;
 use std::ops::{Index, IndexMut};
@@ -149,10 +150,12 @@ fn main() {
                 .map(|_| nu())
                 .collect::<Vec<Item>>()
         };
-        let now = rdtscp();
+        let mut now: u64 = unsafe { std::mem::uninitialized() };
+        unsafe { core::intrinsics::volatile_store(&mut now, rdtscp()) };
         sort(&mut items);
-        let rv = rdtscp() - now;
-        rv
+        let mut rv: u64 = unsafe { std::mem::uninitialized() };
+        unsafe { core::intrinsics::volatile_store(&mut rv, rdtscp()) };
+        rv - now
     };
     println!("{}", (0..100).map(|_| run()).min().unwrap());
 }
