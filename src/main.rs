@@ -136,7 +136,6 @@ fn check(items: &mut [Item]) -> Option<usize> {
 }
 
 fn main() {
-    let mut r = rand::weak_rng();
     let mut run = || {
         unsafe { libc::srand(12345) };
         let mut items = (0..1000_000)
